@@ -1,5 +1,8 @@
 package com.thetoxin.xo.model;
 
+import com.thetoxin.xo.model.exceptions.InvalidePointException;
+import com.thetoxin.xo.model.exceptions.PointAlreadyException;
+
 import java.awt.*;
 
 public class Field {
@@ -14,11 +17,18 @@ public class Field {
         return FILED_SIZE;
     }
 
-    public Figure getFigure(final Point point) {
+    public Figure getFigure(final Point point) throws InvalidePointException {
+        if (!checkPoint(point))
+            throw  new InvalidePointException();
+
         return  field[point.x][point.y];
     }
 
-    public void setFigure(final Point point, final Figure figure) {
+    public void setFigure(final Point point, final Figure figure) throws InvalidePointException, PointAlreadyException {
+        if (!checkPoint(point))
+            throw  new InvalidePointException();
+        if (field[point.x][point.y] != null)
+            throw new PointAlreadyException();
         field[point.x][point.y] = figure;
     }
 
