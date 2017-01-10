@@ -57,7 +57,7 @@ public class ConsoleView {
         try {
             moveController.applyFigure(field,point,currentFigure);
         } catch (InvalidPointException e) {
-            e.printStackTrace();
+            System.out.println("Point is wrong!");
         } catch (PointAlreadyException e) {
             System.out.println("Point is wrong!");
         }
