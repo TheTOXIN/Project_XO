@@ -1,6 +1,5 @@
 package com.thetoxin.xo.controller;
 
-
 import com.thetoxin.xo.model.Field;
 import com.thetoxin.xo.model.Figure;
 import com.thetoxin.xo.model.exceptions.InvalidPointException;
@@ -10,7 +9,9 @@ import java.awt.*;
 public class WinnerController {
 
     public Figure getWinner (final Field field) {
+
         try {
+
             for (int i = 0; i < 3; i++)
                 if (check(field, new Point(i,0), p -> new Point(p.x, p.y + 1)))
                     return field.getFigure(new Point(i,0));
@@ -36,20 +37,17 @@ public class WinnerController {
         final Figure currentFigure;
         final Figure nextFigure;
         final Point nextPoint = pointGenerator.next(currentPoint);
-
         try {
             currentFigure = field.getFigure(currentPoint);
-            nextFigure = field.getFigure(currentPoint);
+            if (currentFigure == null) return false;
+            nextFigure = field.getFigure(nextPoint);
         }catch ( final InvalidPointException e) {
             return true;
         }
 
-        if (currentFigure == null) return false;
-
         if (currentFigure != nextFigure) return false;
 
         return  check(field, nextPoint, pointGenerator);
-
     }
 
     private interface IPointGenerator {

@@ -18,6 +18,4 @@ public class Player {
     public Figure getFigure() {
         return figure;
     }
-
-
 }
