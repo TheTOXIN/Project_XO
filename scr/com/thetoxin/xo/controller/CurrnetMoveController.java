@@ -2,6 +2,7 @@ package com.thetoxin.xo.controller;
 
 import com.thetoxin.xo.model.Field;
 import com.thetoxin.xo.model.Figure;
+import com.thetoxin.xo.model.Player;
 import com.thetoxin.xo.model.exceptions.InvalidPointException;
 
 import java.awt.*;

@@ -12,11 +12,11 @@ public class WinnerController {
 
         try {
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < field.getSize(); i++)
                 if (check(field, new Point(i,0), p -> new Point(p.x, p.y + 1)))
                     return field.getFigure(new Point(i,0));
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < field.getSize(); i++)
                 if (check(field, new Point(0,i), p -> new Point(p.x + 1, p.y)))
                     return field.getFigure(new Point(0,i));
 
@@ -33,7 +33,6 @@ public class WinnerController {
     }
 
     private boolean check(final Field field, final Point currentPoint, final IPointGenerator pointGenerator) {
-
         final Figure currentFigure;
         final Figure nextFigure;
         final Point nextPoint = pointGenerator.next(currentPoint);
@@ -47,7 +46,7 @@ public class WinnerController {
 
         if (currentFigure != nextFigure) return false;
 
-        return  check(field, nextPoint, pointGenerator);
+        return check(field, nextPoint, pointGenerator);
     }
 
     private interface IPointGenerator {
