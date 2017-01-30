@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class InputDate {
+public class InputData {
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -23,7 +23,7 @@ public class InputDate {
         while(true) {
             try {
                 sizeField = Integer.parseInt(reader.readLine());
-                if (sizeField < 3) {
+                if (sizeField < 3 || sizeField > 100) {
                     throw new NumberFormatException();
                 }
                 break;
