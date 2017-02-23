@@ -73,7 +73,6 @@ public class ConsoleView {
             System.out.println("Point is wrong!");
         }
         return true;
-
     }
 
     private Point askPoint() {

@@ -2,6 +2,7 @@ package com.thetoxin.xo.view;
 
 import com.thetoxin.xo.Main;
 import com.thetoxin.xo.controller.CurrnetMoveController;
+import com.thetoxin.xo.controller.KeyboardController;
 import com.thetoxin.xo.controller.MoveController;
 import com.thetoxin.xo.controller.WinnerController;
 import com.thetoxin.xo.model.Field;
@@ -14,8 +15,11 @@ import java.awt.*;
 
 public class WindowsView extends JFrame {
 
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final Dimension windowSize = new Dimension(500, 550);
+
     private Image icon = new ImageIcon("res/icon.png").getImage();
-    private JPanel control = new JPanel(new FlowLayout());
+    private JPanel control = new JPanel();
     private JLabel turn = new JLabel();
     private Font font = new Font("Obelixpro", Font.BOLD, 25);
     private Canvas canvas = new Canvas();
@@ -23,24 +27,30 @@ public class WindowsView extends JFrame {
     private CurrnetMoveController currnetMoveController = new CurrnetMoveController();
     private WinnerController winnerController = new WinnerController();
     private MoveController moveController = new MoveController();
+    private Player[] players = Main.game.getPlayers();
+
+    private int hueta = 21;
 
     public WindowsView() {
-
+        setLocation((int) (screenSize.getWidth()/2-windowSize.getWidth()/2), (int) (screenSize.getHeight()/2-windowSize.getHeight()/2));
         setTitle("XO");
-        setSize(500,500);
+        setSize(windowSize.width, windowSize.height + hueta);
         setIconImage(icon);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+        setFocusable(true);
+        addKeyListener(new KeyboardController());
 
         turn.setFont(font);
-        turn.setBackground(Color.blue);
         turn.setText("Hello");
 
         control.setBackground(Color.GRAY);
         control.add(turn);
+        control.setSize(500,50);
+        control.setLocation(0, 500);
 
-        add(control, BorderLayout.SOUTH);
+        add(control);
         add(canvas);
     }
 
@@ -49,27 +59,24 @@ public class WindowsView extends JFrame {
         final Figure winner = winnerController.getWinner(field);
         final Figure currentFigure = currnetMoveController.currnetMove(field);
 
-        if (currentFigure.equals(Figure.X)) {
-            String s = searchPlayerName(Main.game, currentFigure);
-            turn.setText("Turn is - " + s + " - X");
-        }
-        else {
-            String s = searchPlayerName(Main.game, currentFigure);
-            turn.setText("Turn is - " + s + " - O");
-        }
-
-        control.repaint();
-        canvas.repaint();
+        String s = searchPlayerName(Main.game, currentFigure);
+        turn.setText("Turn is - " + s + "\n");
 
         if (winner != null) {
-            String s = searchPlayerName(Main.game, winner);
             JOptionPane.showMessageDialog(null, "Winner is - " + s);
+            Main.game.isEnd = false;
+            System.exit(1);
+        }
+
+        if (currentFigure == null) {
+            JOptionPane.showMessageDialog(null, "No winner :(");
+            Main.game.isEnd = false;
+            System.exit(1);
         }
     }
 
     private String searchPlayerName(Game game, Figure figure) {
         final Player[] players = game.getPlayers();
-
         for(int i = 0; i < players.length ; i++) {
             if(players[i].getFigure().equals(figure)) {
                 return players[i].getName();

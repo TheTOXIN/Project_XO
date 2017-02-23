@@ -1,42 +1,32 @@
 package com.thetoxin.xo;
 
-import com.thetoxin.xo.model.Field;
-import com.thetoxin.xo.model.Figure;
-import com.thetoxin.xo.model.Game;
-import com.thetoxin.xo.model.Player;
-import com.thetoxin.xo.view.ConsoleView;
+import com.thetoxin.xo.model.*;
 import com.thetoxin.xo.view.InputData;
 import com.thetoxin.xo.view.WindowsView;
 
 public class Main {
 
-    public static Game game;
-    public static int sizeField;
+     public static Game game;
+     public static int sizeField;
 
      public static void main(final  String[] args) {
 
-         System.out.println("Input player name -X-");
-         final String name0 = InputData.inputPlayerName();
-         System.out.println("Input player name -O-");
-         final String name1 = InputData.inputPlayerName();
+         final String name0 = InputData.inputPlayerNameWV("-X-");
+         final String name1 = InputData.inputPlayerNameWV("-O-");
 
-         System.out.print("Input size field: ");
-         sizeField = InputData.inputSizeField();
+         sizeField = InputData.inputSizeFieldWV();
 
          final Player[] players = new Player[2];
          players[0] = new Player(name0, Figure.X);
          players[1] = new Player(name1, Figure.O);
 
-         game = new Game(players, new Field(sizeField), "XO");
+         game = new Game(players, new Field(sizeField), "XO", new Cursor(0,0));
 
-         final ConsoleView consoleView = new ConsoleView();
-         consoleView.show(game);
+         final WindowsView wv = new WindowsView();
 
-         final WindowsView windowsView = new WindowsView();
-
-         while (consoleView.move(game)) {
-             consoleView.show(game);
-             windowsView.loop();
+         while (game.isEnd) {
+             wv.loop();
+             wv.repaint();
          }
      }
 }
