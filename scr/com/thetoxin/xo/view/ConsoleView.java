@@ -1,5 +1,6 @@
 package com.thetoxin.xo.view;
 
+import com.thetoxin.xo.Main;
 import com.thetoxin.xo.controller.CurrnetMoveController;
 import com.thetoxin.xo.controller.MoveController;
 import com.thetoxin.xo.controller.WinnerController;
@@ -48,11 +49,11 @@ public class ConsoleView {
     public boolean move(final Game game) {
 
         final Field field = game.getField();
-        final Figure winner = winnerController.getWinner(field);
+        final Player winner = winnerController.getWinner(Main.game.getPlayers());
         final Figure currentFigure = currnetMoveController.currnetMove(field);
 
         if (winner != null) {
-            System.out.format("Winner is - %s", searchPlayerName(game,winner));
+            System.out.format("Winner is - %s", winner.getName());
             return false;
         }
 

@@ -46,12 +46,12 @@ public class KeyboardController extends KeyAdapter {
             int y = cursor.getY();
 
             final Field field = game.getField();
-            final Figure winner = winnerController.getWinner(field);
             final Figure currentFigure = currnetMoveController.currnetMove(field);
 
             Point point = new Point(y,x);
             try {
                 moveController.applyFigure(field,point,currentFigure);
+                winnerController.searchTriple(point, currentFigure, field);
             } catch (InvalidPointException e2) {
                 JOptionPane.showMessageDialog(null, "WAT? xD");
             } catch (PointAlreadyException e2) {

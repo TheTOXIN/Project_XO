@@ -56,30 +56,28 @@ public class WindowsView extends JFrame {
 
     public void loop() {
         final Field field = Main.game.getField();
-        final Figure winner = winnerController.getWinner(field);
         final Figure currentFigure = currnetMoveController.currnetMove(field);
 
-        String s = searchPlayerName(Main.game, currentFigure);
-        turn.setText("Turn is - " + s + "\n");
-
-        if (winner != null) {
-            JOptionPane.showMessageDialog(null, "Winner is - " + s);
-            Main.game.isEnd = false;
-            System.exit(1);
-        }
-
         if (currentFigure == null) {
-            JOptionPane.showMessageDialog(null, "No winner :(");
+            final Player winner = winnerController.getWinner(players);
+            if (winner != null) {
+                JOptionPane.showMessageDialog(null, "Winner is - " + winner.getName());
+            } else {
+                JOptionPane.showMessageDialog(null, "NO WINNER =(");
+            }
             Main.game.isEnd = false;
             System.exit(1);
         }
+
+        Player player = searchPlayer(Main.game, currentFigure);
+        turn.setText("Turn is - " + player.getName() + " - " + player.getScore() );
     }
 
-    private String searchPlayerName(Game game, Figure figure) {
+    private Player searchPlayer(Game game, Figure figure) {
         final Player[] players = game.getPlayers();
         for(int i = 0; i < players.length ; i++) {
             if(players[i].getFigure().equals(figure)) {
-                return players[i].getName();
+                return players[i];
             }
         }
         return  null;

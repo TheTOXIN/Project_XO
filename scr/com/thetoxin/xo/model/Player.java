@@ -24,7 +24,7 @@ public class Player {
         return score;
     }
 
-    public void addScore() {
-        this.score++;
+    public void addScore(int score) {
+        this.score += score;
     }
 }

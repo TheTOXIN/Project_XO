@@ -1,60 +1,151 @@
 package com.thetoxin.xo.controller;
 
+import com.thetoxin.xo.Main;
 import com.thetoxin.xo.model.Field;
 import com.thetoxin.xo.model.Figure;
+import com.thetoxin.xo.model.Game;
+import com.thetoxin.xo.model.Player;
 import com.thetoxin.xo.model.exceptions.InvalidPointException;
+import com.thetoxin.xo.model.exceptions.PointAlreadyException;
 
 import java.awt.*;
 
 public class WinnerController {
 
-    public Figure getWinner (final Field field) {
-
-        try {
-            for (int i = 0; i < field.getSize(); i++) {
-                if (check(field, new Point(i, 0), p -> new Point(p.x, p.y + 1))) {
-                        return field.getFigure(new Point(i, 0));
-                }
+    public Player getWinner (final Player players[]) {
+        Player winner = null;
+        int max = 0;
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getScore() > max) {
+                max = players[i].getScore();
+                winner = players[i];
             }
-
-            for (int i = 0; i < field.getSize(); i++) {
-                if (check(field, new Point(0, i), p -> new Point(p.x + 1, p.y))) {
-                        return field.getFigure(new Point(0, i));
-                }
-            }
-
-            if (check(field, new Point(0,0), p -> new Point(p.x + 1, p.y + 1))) {
-                    return field.getFigure(new Point(0, 0));
-            }
-
-            if (check(field, new Point(0,2), p -> new Point(p.x + 1, p.y - 1))) {
-                    return field.getFigure(new Point(1, 1));
-            }
-
-            }catch(InvalidPointException e){
-                e.printStackTrace();
-            }
-            return null;
+        }
+        return winner;
     }
 
-    private boolean check(final Field field, final Point currentPoint, final IPointGenerator pointGenerator) {
-        final Figure currentFigure;
-        final Figure nextFigure;
-        final Point nextPoint = pointGenerator.next(currentPoint);
-        try {
-            currentFigure = field.getFigure(currentPoint);
-            if (currentFigure == null) return false;
-            nextFigure = field.getFigure(nextPoint);
-        }catch ( final InvalidPointException e) {
-            return true;
+    public void searchTriple(final Point point, Figure figure, final Field field) {
+        int score = 0;
+        int x = point.x;
+        int y = point.y;
+
+        for (int i = 0; i <= 4; i+=3) {
+
+            try {
+                if (figure == field.getFigure(new Point(x, y - 1)) &&
+                        figure == field.getFigure(new Point(x, y - 2 + i))) {
+                    score++;
+                    setNullFigure(new Point(x, y - 1), field);
+                    setNullFigure(new Point(x, y - 2 + i), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+                if (figure == field.getFigure(new Point(x + 1, y - 1)) &&
+                        figure == field.getFigure(new Point(x + 2 - i, y - 2 + i))) {
+                    score++;
+                    setNullFigure(new Point(x + 1, y - 1), field);
+                    setNullFigure(new Point(x + 2 - i, y - 2 + i), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+                if (figure == field.getFigure(new Point(x + 1, y)) &&
+                        figure == field.getFigure(new Point(x + 2 - i, y))) {
+                    score++;
+                    setNullFigure(new Point(x + 1, y), field);
+                    setNullFigure(new Point(x + 2 - i, y), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+                if (figure == field.getFigure(new Point(x + 1, y + 1)) &&
+                        figure == field.getFigure(new Point(x + 2 - i, y + 2 - i))) {
+                    score++;
+                    setNullFigure(new Point(x + 1, y + 1), field);
+                    setNullFigure(new Point(x + 2 - i, y + 2 - i), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+
+                if (figure == field.getFigure(new Point(x, y + 1)) &&
+                        figure == field.getFigure(new Point(x, y + 2 - i))) {
+                    score++;
+                    setNullFigure(new Point(x, y + 1), field);
+                    setNullFigure(new Point(x, y + 2 - i), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+
+                if (figure == field.getFigure(new Point(x - 1, y + 1)) &&
+                        figure == field.getFigure(new Point(x - 2 + i, y + 2 - i))) {
+                    score++;
+                    setNullFigure(new Point(x - 1, y + 1), field);
+                    setNullFigure(new Point(x - 2 + i, y + 2 - i), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+
+                if (figure == field.getFigure(new Point(x - 1, y)) &&
+                        figure == field.getFigure(new Point(x - 2 + i, y))) {
+                    score++;
+                    setNullFigure(new Point(x - 1, y), field);
+                    setNullFigure(new Point(x - 2 + i, y), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
+
+            try {
+                if (figure == field.getFigure(new Point(x - 1, y - 1)) &&
+                        figure == field.getFigure(new Point(x - 2 + i, y - 2 + i))) {
+                    score++;
+                    setNullFigure(new Point(x - 1, y - 1), field);
+                    setNullFigure(new Point(x - 2 + i, y - 2 + i), field);
+                }
+            } catch (InvalidPointException e) {
+                //LOL
+            }
         }
 
-        if (currentFigure != nextFigure) return false;
-
-        return check(field, nextPoint, pointGenerator);
+        if (score != 0) {
+            setNullFigure(point, field);
+        }
+        setScore(Main.game, figure, score);
     }
 
-    private interface IPointGenerator {
-        Point next(final Point point);
+    private void setScore(final Game game, final Figure figure,  final int score) {
+        final Player[] players = game.getPlayers();
+        for(int i = 0; i < players.length ; i++) {
+            if(players[i].getFigure().equals(figure)) {
+                players[i].addScore(score);
+            }
+        }
+    }
+
+    private void setNullFigure(final Point point, final Field field) {
+        try {
+            field.setFigure(point, null);
+            new MoveController().applyFigure(field, point, Figure.N);
+        } catch (InvalidPointException e) {
+            //LOL
+        } catch (PointAlreadyException e) {
+            //LOL
+        }
     }
 }

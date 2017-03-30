@@ -10,16 +10,16 @@ import java.awt.*;
 
 public class Canvas extends JPanel {
 
-    final Field field = Main.game.getField();
+    public final Field field = Main.game.getField();
 
-    public final Image krestick = new ImageIcon("res/krestick.png").getImage();
-    public final Image nolick = new ImageIcon("res/nolick.png").getImage();
-    public final Image kursor = Main.game.getCursor().getImageKursor();
+    private final Image krestick = new ImageIcon("res/krestick.png").getImage();
+    private final Image nolick = new ImageIcon("res/nolick.png").getImage();
+    private final Image nuller = new ImageIcon("res/nuller.png").getImage();
+    private final Image kursor = new ImageIcon("res/kursor.png").getImage();
 
-    public final int countLine = Main.sizeField - 1;
-    public int  widthLine = 50 / countLine;
-    public final int space = (500 - widthLine*countLine) / Main.sizeField ;
-
+    private final int countLine = Main.sizeField - 1;
+    private int  widthLine = 50 / countLine;
+    private final int space = (500 - widthLine*countLine) / Main.sizeField ;
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -65,6 +65,9 @@ public class Canvas extends JPanel {
                 }
                 if (figure == Figure.O) {
                     g2.drawImage(nolick, xFigure, yFigure, widthFigure, widthFigure, null);
+                }
+                if (figure == Figure.N) {
+                    g2.drawImage(nuller, xFigure, yFigure, widthFigure, widthFigure, null);
                 }
             }
         }

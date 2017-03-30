@@ -2,10 +2,13 @@ package com.thetoxin.xo.model;
 
 public class Game {
 
+    public static int step = 0;
+
     private final Player[] players;
     private final Field field;
     private final String name;
     private final Cursor cursor;
+    
     public Boolean isEnd;
 
     public Game(final Player[] players, final Field field, final String name, final Cursor cursor) {

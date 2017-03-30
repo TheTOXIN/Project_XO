@@ -23,7 +23,7 @@ public class Main {
          game = new Game(players, new Field(sizeField), "XO", new Cursor(0,0));
 
          final WindowsView wv = new WindowsView();
-
+         
          while (game.isEnd) {
              wv.loop();
              wv.repaint();
