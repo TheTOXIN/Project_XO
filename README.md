@@ -1,2 +1,2 @@
 # XO_Just_Java_Project
-Dratuti
+Tic Tac Toe game on Java
